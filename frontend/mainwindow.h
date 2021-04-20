@@ -9,6 +9,7 @@
 #include <QDebug>
 #include <math.h>
 #include <algorithm>
+#include "../backend/sorter.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,7 +26,7 @@ public:
     class Sort {
     public:
         enum SortType {BUBBLE, SELECTION, QUICK, MERGE} type;
-        enum Ordering {RANDOM, BEST, WORST} order;
+        enum Ordering {RANDOM, ASCENDING, DESCENDING} order;
         int num;
 
         Sort(SortType sortType, Ordering ordering, int numElements) :
@@ -53,11 +54,11 @@ public:
                 case Sort::RANDOM:
                      return "Random";
                     break;
-                case Sort::BEST:
-                    return "Best Case";
+                case Sort::ASCENDING:
+                    return "Ascending";
                     break;
-                case Sort::WORST:
-                    return "Worst Case";
+                case Sort::DESCENDING:
+                    return "Descending";
                     break;
             }
         }

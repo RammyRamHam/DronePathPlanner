@@ -14,10 +14,37 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->removeSort, &QPushButton::clicked, this, &MainWindow::removeSort);
     connect(ui->runSorts, &QPushButton::clicked, this, &MainWindow::runSorts);
 
-    ui->splitter->setSizes({310, 900});
+    ui->splitter->setSizes({390, 810});
 
     ui->dataTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
     ui->sortList->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    ui->dataTable->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->sortList->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+    ui->sortList->setStyleSheet(
+        "QHeaderView::section { "
+        "background-color: #646464; "
+        "padding: 4px; "
+        "font-size: 10pt; "
+        "border-style: none; "
+        "border-bottom: 1px solid #fffff8; "
+        "border-right: 1px solid #fffff8; "
+        "border-left: 1px solid #fffff8;} "
+        "QHeaderView::section:horizontal {border-top: 1px solid #fffff8;} "
+        "QHeaderView::section:vertical {border-left: 1px solid #fffff8;}");
+
+    ui->dataTable->setStyleSheet(
+        "QHeaderView::section { "
+        "background-color: #646464; "
+        "padding: 4px; "
+        "font-size: 10pt; "
+        "border-style: none; "
+        "border-bottom: 1px solid #fffff8; "
+        "border-right: 1px solid #fffff8; "
+        "border-left: 1px solid #fffff8;} "
+        "QHeaderView::section:horizontal {border-top: 1px solid #fffff8;} "
+        "QHeaderView::section:vertical {border-left: 1px solid #fffff8;}");
  }
 
 MainWindow::~MainWindow() {
@@ -62,11 +89,11 @@ void MainWindow::addToSortList() {
              order = Sort::RANDOM;
             break;
         case 2:
-            order = Sort::WORST;
+            order = Sort::ASCENDING;
             break;
 
         case 3:
-            order = Sort::BEST;
+            order = Sort::DESCENDING;
             break;
     }
 
@@ -129,21 +156,62 @@ void MainWindow::on_genNum_textChanged(const QString &arg1) {
 }
 
 
-
 void MainWindow::runSorts() {
     if (sortList.size()) {
         for (Sort currSort : sortList) {
+            Sorter currSorter(currSort.num);
+
+            unsigned long timeStart =
+                std::chrono::system_clock::now().time_since_epoch() /
+                std::chrono::microseconds(1);
+
+            char currOrder;
+            switch (currSort.order) {
+                case Sort::RANDOM:
+                    currOrder = 's';
+                    break;
+                case Sort::ASCENDING:
+                    currOrder = 'o';
+                    break;
+                case Sort::DESCENDING:
+                    currOrder = 'r';
+                    break;
+            }
+
+            switch(currSort.type) {
+                case Sort::BUBBLE:
+                    currSorter.bubbleSort(currOrder);
+                    break;
+                case Sort::SELECTION:
+                    currSorter.selectionSort(currOrder);
+                    break;
+                case Sort::QUICK:
+                    currSorter.quickSort(currOrder);
+                    break;
+                case Sort::MERGE:
+                    currSorter.mergeSort(currOrder);
+                    break;
+            }
+
+            unsigned long currTime =
+                    std::chrono::system_clock::now().time_since_epoch() /
+                    std::chrono::microseconds(1);
+
+            unsigned long diffTime = currTime - timeStart;
+
             ui->dataTable->insertRow(0);
 
             ui->dataTable->setItem(0, 0, new QTableWidgetItem());
             ui->dataTable->setItem(0, 1, new QTableWidgetItem());
             ui->dataTable->setItem(0, 2, new QTableWidgetItem());
             ui->dataTable->setItem(0, 3, new QTableWidgetItem());
+            ui->dataTable->setItem(0, 4, new QTableWidgetItem());
 
             ui->dataTable->item(0,0)->setText("");
             ui->dataTable->item(0,1)->setText(QString::fromStdString(Sort::typeString(currSort.type)));
             ui->dataTable->item(0,2)->setText(QString::number(currSort.num));
             ui->dataTable->item(0,3)->setText(QString::fromStdString(Sort::orderString(currSort.order)));
+            ui->dataTable->item(0,4)->setText(QString::number(diffTime));
         }
 
         ui->dataTable->item(0,0)->setText(QString::number(numTest++));

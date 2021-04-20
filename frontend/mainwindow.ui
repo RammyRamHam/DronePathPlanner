@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1300</width>
+    <width>1200</width>
     <height>800</height>
    </rect>
   </property>
@@ -73,7 +73,7 @@
         <item>
          <widget class="QLabel" name="label">
           <property name="text">
-           <string>Generate Random Array Elements</string>
+           <string>Configure Sort to Add</string>
           </property>
          </widget>
         </item>
@@ -148,12 +148,12 @@
             </item>
             <item>
              <property name="text">
-              <string>Worst Case</string>
+              <string>Ascending</string>
              </property>
             </item>
             <item>
              <property name="text">
-              <string>Best Case</string>
+              <string>Descending</string>
              </property>
             </item>
            </widget>
@@ -229,15 +229,24 @@
            <property name="text">
             <string>Algorithm</string>
            </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
+           </property>
           </column>
           <column>
            <property name="text">
             <string>Number of Points</string>
            </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
+           </property>
           </column>
           <column>
            <property name="text">
             <string>Ordering</string>
+           </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
            </property>
           </column>
          </widget>
@@ -291,25 +300,40 @@
            <property name="text">
             <string>Run Number</string>
            </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
+           </property>
           </column>
           <column>
            <property name="text">
             <string>Algorithm</string>
+           </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
            </property>
           </column>
           <column>
            <property name="text">
             <string>Number of Points</string>
            </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
+           </property>
           </column>
           <column>
            <property name="text">
             <string>Ordering</string>
            </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
+           </property>
           </column>
           <column>
            <property name="text">
-            <string>Time Taken</string>
+            <string>Sort Time (uS)</string>
+           </property>
+           <property name="textAlignment">
+            <set>AlignCenter</set>
            </property>
           </column>
          </widget>
@@ -325,7 +349,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1300</width>
+     <width>1200</width>
      <height>20</height>
     </rect>
    </property>
