@@ -6,6 +6,7 @@
 #include <QListWidgetItem>
 #include <QLineEdit>
 #include <QCompleter>
+#include <QDebug>
 #include <math.h>
 #include <algorithm>
 
@@ -21,27 +22,63 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    class Sort {
+    public:
+        enum SortType {BUBBLE, SELECTION, QUICK, MERGE} type;
+        enum Ordering {RANDOM, BEST, WORST} order;
+        int num;
+
+        Sort(SortType sortType, Ordering ordering, int numElements) :
+            type(sortType), order(ordering), num(numElements) {};
+
+        static std::string typeString(SortType type) {
+            switch(type) {
+                case Sort::BUBBLE:
+                     return "Bubble Sort";
+                    break;
+                case Sort::SELECTION:
+                    return "Selection Sort";
+                    break;
+                case Sort::QUICK:
+                    return "Quick Sort";
+                    break;
+                case Sort::MERGE:
+                    return "Merge Sort";
+                    break;
+            }
+        }
+
+        static std::string orderString(Ordering order) {
+            switch(order) {
+                case Sort::RANDOM:
+                     return "Random";
+                    break;
+                case Sort::BEST:
+                    return "Best Case";
+                    break;
+                case Sort::WORST:
+                    return "Worst Case";
+                    break;
+            }
+        }
+
+
+    };
+
 private slots:
-
-    void on_nearestNeighbor_clicked();
-
-    void on_christofides_clicked();
-
-    void on_dijkstra_clicked();
-
     void on_genNum_textChanged(const QString &arg1);
-
-    void on_addressInput_textChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
     bool numGenValid = false;
-    std::vector<std::string> addresses;
+    std::vector<Sort> sortList;
+    int numTest = 0;
 
-    void addToAddressList(QString toAdd = "");
     void validInputFeedback(QLineEdit *lineEdit, bool validIndicator);
-    void genRandomAddresses();
-    void removeAddress();
+    void genRandomElements();
+    void addToSortList();
+    void removeSort();
+    void runSorts();
 
 };
 #endif // MAINWINDOW_H
